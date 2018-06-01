@@ -1,5 +1,7 @@
 import re
 import csv
+import os 
+
 
 class ar_mobile_parce(object):
     default_indicativo = ''
@@ -21,12 +23,13 @@ class ar_mobile_parce(object):
     ]
  
     def __init__(self):
-        with open('data/enacom.csv', 'rb') as csvfile:
+        path = os.path.dirname(os.path.realpath(__file__))
+        with open(path + '/data/enacom.csv', 'r') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
          for row in spamreader:
             if row[1] !='SBT':
                 self.add_dict_indicativos(row[4],row[5])
-        with open('data/cp_indicativos.csv', 'rb') as csvfile:
+        with open(path + '/data/cp_indicativos.csv', 'r') as csvfile:
              spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
              for row in spamreader:
                 self.set_codigo_indicativo(str(row[0]),str(row[1]))
