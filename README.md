@@ -2,8 +2,8 @@
 
 <h1>Argentina mobile parce</h1>
 <p>Obtain mobiles number from strings</p>
+<p>Example</p>
 <pre>
-example 
 parcer = ar_mobile_parce()
 parcer.set_default_indicativo('299')
 

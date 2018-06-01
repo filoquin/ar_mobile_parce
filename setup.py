@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ar_mobile_parce",
-    version="0.0.1",
+    version="0.0.2",
     author="filoquin",
     author_email="filquin@sipecu.com.ar",
     description="Parce mobiles argentine",
