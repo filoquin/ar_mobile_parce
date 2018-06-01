@@ -12,7 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     package_data={
-        'ar_mobile_parce': ['enacom.csv','cp_indicativos.csv'],
+        'ar_mobile_parce': ['ar_mobile_parce/enacom.csv','ar_mobile_parce/cp_indicativos.csv'],
     },
     url="https://github.com/filoquin/ar_mobile_parce",
     packages=setuptools.find_packages(),
