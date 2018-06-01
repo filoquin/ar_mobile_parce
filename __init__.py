@@ -6,16 +6,16 @@ class ar_mobile_parce(object):
     codigo_indicativo = {}
     dict_indicativos = {}
     known_structures = [
-        ('(0)*(2[0-9][0-9][0-9]|[0-9][0-9][0-9]|11)*(\-)*(15)*(\-)*([4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
+        ('(0)*(2[0-9][0-9][0-9]|[0-9][0-9][0-9]|11)*(\-)*(15)*(\-)*([3|4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
             {
                 'indicativo':1,
                 'numero':[5,7]
             }
         ),
-        ('(15)(\-)*([4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
+        ('(15)*(\-)*([4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
             {
                 'indicativo':False,
-                'numero':[3,5]
+                'numero':[2,4]
             }
         )
     ]
@@ -76,13 +76,14 @@ class ar_mobile_parce(object):
         it = 0 
         while it < len(self.known_structures):
         
-            phones =  self.parce_text(text,0)
+            phones =  self.parce_text(text,it)
             if phones:
                 for phone in phones:
                     indicativo = phone['indicativo'] or self.get_codigo_indicativo(code)
                     bloque = phone['numero'][:3]
                     if self.is_mobile(indicativo,bloque):
                         rtn.append(self.format_e164(indicativo,phone['numero']))
-                return rtn
+                if len(rtn):
+                    return rtn
             it += 1
 
