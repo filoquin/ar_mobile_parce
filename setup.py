@@ -5,17 +5,18 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ar_mobile_parce",
-    version="0.0.4",
+    version="0.0.5",
     author="filoquin",
     author_email="filquin@sipecu.com.ar",
     description="Parce mobiles argentine",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    url="https://github.com/filoquin/ar_mobile_parce",
+    packages=setuptools.find_packages(),
     package_data={
         'data': ['enacom.csv','cp_indicativos.csv'],
     },
-    url="https://github.com/filoquin/ar_mobile_parce",
-    packages=setuptools.find_packages(),
+    include_package_data=True,
     classifiers=(
         "Programming Language :: Python :: 2",
         "License :: OSI Approved :: MIT License",
