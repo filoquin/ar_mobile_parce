@@ -11,6 +11,9 @@ setuptools.setup(
     description="Parce mobiles argentine",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    package_data={
+        'ar_mobile_parce': ['enacom.csv','cp_indicativos.csv'],
+    },
     url="https://github.com/filoquin/ar_mobile_parce",
     packages=setuptools.find_packages(),
     classifiers=(
