@@ -21,12 +21,12 @@ class ar_mobile_parce(object):
     ]
  
     def __init__(self):
-        with open('enacom.csv', 'rb') as csvfile:
+        with open('data/enacom.csv', 'rb') as csvfile:
          spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
          for row in spamreader:
             if row[1] !='SBT':
                 self.add_dict_indicativos(row[4],row[5])
-        with open('cp_indicativos.csv', 'rb') as csvfile:
+        with open('data/cp_indicativos.csv', 'rb') as csvfile:
              spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
              for row in spamreader:
                 self.set_codigo_indicativo(str(row[0]),str(row[1]))
