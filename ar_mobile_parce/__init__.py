@@ -2,7 +2,6 @@ import re
 import csv
 import os 
 
-
 class ar_mobile_parce(object):
     default_indicativo = ''
     codigo_indicativo = {}
