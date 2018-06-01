@@ -1,7 +1,0 @@
-README.md
-setup.py
-ar_mobile_parce/__init__.py
-ar_mobile_parce.egg-info/PKG-INFO
-ar_mobile_parce.egg-info/SOURCES.txt
-ar_mobile_parce.egg-info/dependency_links.txt
-ar_mobile_parce.egg-info/top_level.txt
