@@ -2,18 +2,31 @@ import re
 import csv
 import os 
 
+
 class ar_mobile_parce(object):
     default_indicativo = ''
     codigo_indicativo = {}
     dict_indicativos = {}
     known_structures = [
-        ('(0)*(2[0-9][0-9][0-9]|[0-9][0-9][0-9]|11)*(\-)*(15)*(\-)*([3|4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
+        ('(0)*([0-9][0-9][0-9]|11)*(\-)*(15)*(\-)*([3|4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
+            {
+                'indicativo':1,
+                'numero':[5,7]
+            }
+        ),
+        ('(0)*([0-9][0-9][0-9][0-9])*(\-)*(15)*(\-)*([3|4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9])',
             {
                 'indicativo':1,
                 'numero':[5,7]
             }
         ),
         ('(15)*(\-)*([4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
+            {
+                'indicativo':False,
+                'numero':[2,4]
+            }
+        ),
+        ('(15)*(\-)*([4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9])',
             {
                 'indicativo':False,
                 'numero':[2,4]
@@ -46,6 +59,13 @@ class ar_mobile_parce(object):
         else :
             return self.default_indicativo
 
+    def get_indicativo_bloques_size(self,indicativo):
+        if indicativo in self.dict_indicativos :
+            size = [len(x) for x in self.dict_indicativos[indicativo]]
+            return list(set(size))
+        else :
+            return [0]
+
     def add_dict_indicativos(self,indicativo,bloque):
         if indicativo in self.dict_indicativos :
             self.dict_indicativos[indicativo].append(bloque)
@@ -53,7 +73,8 @@ class ar_mobile_parce(object):
             self.dict_indicativos[indicativo]=[bloque]
 
     def is_mobile(self,indicativo,bloque):
-        if indicativo in self.dict_indicativos and  bloque in self.dict_indicativos[indicativo]:
+        if indicativo in self.dict_indicativos and \
+            bloque in self.dict_indicativos[indicativo]:
             return True
         return False
     def make_dict(self,structure,mob):
@@ -82,10 +103,10 @@ class ar_mobile_parce(object):
             if phones:
                 for phone in phones:
                     indicativo = phone['indicativo'] or self.get_codigo_indicativo(code)
-                    bloque = phone['numero'][:3]
-                    if self.is_mobile(indicativo,bloque):
-                        rtn.append(self.format_e164(indicativo,phone['numero']))
+                    for  bloque_size in self.get_indicativo_bloques_size(indicativo):
+                        bloque = phone['numero'][:bloque_size]
+                        if self.is_mobile(indicativo,bloque):
+                            rtn.append(self.format_e164(indicativo,phone['numero']))
                 if len(rtn):
                     return rtn
             it += 1
-
