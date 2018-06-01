@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/filoquin/ar_mobile_parce",
     packages=setuptools.find_packages(),
     package_data={
-        'data': ['enacom.csv','cp_indicativos.csv'],
+        'data': ['data/enacom.csv','data/cp_indicativos.csv'],
     },
     include_package_data=True,
     classifiers=(
