@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ar_mobile_parce",
-    version="0.0.6",
+    version="0.0.7",
     author="filoquin",
     author_email="filquin@sipecu.com.ar",
     description="Parce mobiles argentine",
@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/filoquin/ar_mobile_parce",
     packages=setuptools.find_packages(),
     package_data={
-        'ar_mobile_parce': ['data/enacom.csv','data/cp_indicativos.csv'],
+        'ar_mobile_parce': ['data/enacom.csv'],
     },
     include_package_data=True,
     classifiers=(
