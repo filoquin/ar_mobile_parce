@@ -5,7 +5,7 @@ import os
 
 class ar_mobile_parce(object):
     default_indicativo = ''
-    codigo_indicativo = {}
+    codigo_indicativo = {'9120': [], '8361': [], '8363': [], '8364': [], '9203': [], '8360': [], '9107': [], '9105': [], '8153': [], '3630': ['3715'], '8307': [], '9015': [], '8305': ['299'], '8160': [], '8303': ['299'], '8328': [], '8301': ['299'], '8300': ['299'], '8324': ['299'], '8136': [], '8326': [], '8347': [], '8132': [], '9200': [], '8520': [], '8370': [], '0': [], '9400': ['2902'], '8309': ['299'], '9420': [], '9220': [], '7530': [], '8105': ['291'], '8148': [], '3600': ['370'], '8101': [], '8103': ['299'], '9111': [], '8142': [], '8109': [], '9103': [], '8315': ['2942'], '8316': ['299'], '8336': [], '9100': [], '9001': [], '9000': ['297'], '8146': [], '8000': ['291'], '9020': ['297'], '3400': ['379'], '9410': [], '9017': [], '7540': [], '9011': []}
     dict_indicativos = {}
     known_structures = [
         ('(0)*([0-9][0-9][0-9]|11)*(\-)*(15)*(\-)*([3|4|5|6])(\-)*([0-9][0-9][0-9][0-9][0-9][0-9])',
@@ -41,10 +41,6 @@ class ar_mobile_parce(object):
          for row in spamreader:
             if row[1] !='SBT':
                 self.add_dict_indicativos(row[4],row[5])
-        with open(path + '/data/cp_indicativos.csv', 'r') as csvfile:
-             spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
-             for row in spamreader:
-                self.set_codigo_indicativo(str(row[0]),str(row[1]))
 
 
     def set_default_indicativo(self,indicativo):
@@ -57,7 +53,7 @@ class ar_mobile_parce(object):
         if code and code in self.codigo_indicativo :
             return self.codigo_indicativo[code]
         else :
-            return self.default_indicativo
+            return [self.default_indicativo]
 
     def get_indicativo_bloques_size(self,indicativo):
         if indicativo in self.dict_indicativos :
@@ -102,11 +98,16 @@ class ar_mobile_parce(object):
             phones =  self.parce_text(text,it)
             if phones:
                 for phone in phones:
-                    indicativo = phone['indicativo'] or self.get_codigo_indicativo(code)
-                    for  bloque_size in self.get_indicativo_bloques_size(indicativo):
-                        bloque = phone['numero'][:bloque_size]
-                        if self.is_mobile(indicativo,bloque):
-                            rtn.append(self.format_e164(indicativo,phone['numero']))
+                    if phone['indicativo']: 
+                        indicativos= [phone['indicativo']]
+                    else:     
+                        indicativos = self.get_codigo_indicativo(code)
+
+                    for indicativo in indicativos:
+                        for  bloque_size in self.get_indicativo_bloques_size(indicativo):
+                            bloque = phone['numero'][:bloque_size]
+                            if self.is_mobile(indicativo,bloque):
+                                rtn.append(self.format_e164(indicativo,phone['numero']))
                 if len(rtn):
                     return rtn
             it += 1
